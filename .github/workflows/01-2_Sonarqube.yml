@@ -1,39 +1,41 @@
-name: 01-2 - Integration - SONRAQUBE
+name: 01-2 - Integration - SonarQube
 
 on:
   workflow_call
 
 jobs:
-  QualityBack:
+  Qualityback:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./backend
 
     steps:
-      - name: Checkout Code 
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: SonarQube Scan
         uses: SonarSource/sonarcloud-github-action@v3.1.0
         with:
           projectBaseDir: ./backend
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACK }}
+        env: 
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACK}}
+  
 
-  QualityFront:
+  Qualityfront:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./frontend
 
     steps:
-      - name: Checkout Code 
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: SonarQube Scan
         uses: SonarSource/sonarcloud-github-action@v3.1.0
         with:
           projectBaseDir: ./frontend
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONT }}
+        env: 
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONT}}
+  

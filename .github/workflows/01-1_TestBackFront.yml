@@ -75,7 +75,8 @@ jobs:
 
       - name: Start Hotbuild Backend
         run: |
-          cd ../_tools/docker 
+          cd ..
+          cp ./_tools/docker/docker-compose-back-build.yml .
           docker compose -f docker-compose-back-build.yml up -d
           docker ps -a
 
@@ -87,7 +88,8 @@ jobs:
       - name: Test Backend Container
         if: success()
         run: |
-          curl -v http://127.0.0.1:12000
+          docker ps
+          curl http://127.0.0.1:12000
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
