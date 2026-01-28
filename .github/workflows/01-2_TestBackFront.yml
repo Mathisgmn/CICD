@@ -1,0 +1,4 @@
+name: 01-2 - Integration - SONNARQUBE
+
+on:
+  workflow_call
