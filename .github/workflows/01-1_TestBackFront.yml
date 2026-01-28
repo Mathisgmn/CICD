@@ -1,4 +1,4 @@
-name: 01-1 - Integration - TEST
+name: 01-1 - Integration - Test_Back_Front
 
 on:
   workflow_call
@@ -15,13 +15,13 @@ jobs:
         image: mariadb:latest
         env:
           MARIADB_ROOT_PASSWORD: toor
-          MARIADB_DATABASE: test
-          MARIADB_USER: test
+          MARIADB_DATABASE: test 
+          MARIADB_USER: test 
           MARIADB_PASSWORD: test
         ports:
           - 3306:3306
         options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
-
+    
     env:
       BDD_HOST: 127.0.0.1
       BDD_PASS: test
@@ -40,26 +40,26 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22.x'
+          node-version: '22'
 
       - name: Install Backend Dependencies
         run: npm install
 
-      - name: Init bdd
+      - name: Init bdd 
         run: npm run initbdd
 
-      - name: Populate bdd
-        run: |
+      - name: Populate bdd 
+        run: | 
           mysql -u root -ptoor --host 127.0.0.1 --port 3306 --database test < ./test/insert_test_user.sql
 
       - name: Run Backend Tests
         run: npm run test:cov
-
-      - name: Upload Backend Coverage Artifact
+      
+      - name: Upload Backend Coverage
         uses: actions/upload-artifact@v4
         with:
           name: backend-coverage-report
-          path: backend/coverage
+          path: backend/coverage/
           retention-days: 1
 
   Frontend:
@@ -73,10 +73,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Start HotBuild Backend
+      - name: Start Hotbuild Backend
         run: |
-          cd ..
-          cp ./_tools/docker/docker-compose-back-build.yml .
+          cd ../_tools/docker 
           docker compose -f docker-compose-back-build.yml up -d
           docker ps -a
 
@@ -85,14 +84,15 @@ jobs:
         with:
           time: '10s'
 
-      - name: Test Backend COntainer
+      - name: Test Backend Container
         if: success()
-        run: curl http://127.0.0.1:12000
+        run: |
+          curl -v http://127.0.0.1:12000
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22.x'
+          node-version: '22'
 
       - name: Cypress E2E Install
         uses: cypress-io/github-action@v6
@@ -131,11 +131,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: frontend-coverage-report
-          path: frontend/coverage
+          path: frontend/coverage/
           retention-days: 1
 
-      - name: Shutdown HotBuild Backend
+      - name: Shutdown Hotbuild Backend
         if: always()
         run: |
-          cd ../_tools/docker
+          cd ../_tools/docker 
           docker compose -f docker-compose-back-build.yml down
