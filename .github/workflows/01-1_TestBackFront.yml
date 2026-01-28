@@ -85,6 +85,8 @@ jobs:
         with:
           time: '10s'
 
+      - run: docker ps -a
+
       - name: Test Backend Container
         if: success()
         run: |
