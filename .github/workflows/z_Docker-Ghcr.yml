@@ -26,8 +26,10 @@ jobs:
   
   Build_Push_Docker:
     runs-on: ubuntu-latest
-
     steps: 
+      - name: Checkout repository
+        uses: actions/checkout@v3
+ 
       - name: Log in to Github Container Registery
         uses: docker/login-action@v3
         with: 
@@ -35,7 +37,7 @@ jobs:
           username: ${{ env.USERNAME }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Down case Image Name
+      - name: Downcase Image Name
         run: echo "IMAGE_NAME_LOWER=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
       
       - name: Back Build and push Docker image

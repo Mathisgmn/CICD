@@ -1,4 +1,4 @@
-name: 01-1 - Integration - Test_Back_Front
+name: 01- 1 - Integration - Test_Back_Front
 
 on:
   workflow_call
@@ -76,7 +76,7 @@ jobs:
       - name: Start Hotbuild Backend
         run: |
           cd ..
-          cp ./_tools/docker/docker-compose-back-build.yml .
+          cp ./_tools/docker/docker-compose-back-build.yml . 
           docker compose -f docker-compose-back-build.yml up -d
           docker ps -a
 
@@ -88,8 +88,7 @@ jobs:
       - name: Test Backend Container
         if: success()
         run: |
-          docker ps
-          curl http://127.0.0.1:12000
+          curl -v http://127.0.0.1:12000
 
       - name: Setup Node.js
         uses: actions/setup-node@v3

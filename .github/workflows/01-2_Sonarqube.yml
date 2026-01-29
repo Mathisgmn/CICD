@@ -1,53 +1,48 @@
-name: 01-2 - Integration - SonarQube
-
+name: 01 - 2 - Integration -SONARQUBE
 on:
   workflow_call
-
 jobs:
-  Qualityback:
+  QualityBack: 
     runs-on: ubuntu-latest
-    defaults:
+    defaults: 
       run:
         working-directory: ./backend
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code 
+      uses: actions/checkout@v3 
 
-      - name: Download Coverage Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: backend-coverage-report
-          path: ./coverage-backend
+    - name: Download Artifacts 
+      uses: actions/download-artifact@v4
+      with:
+        name: backend-coverage-report
+        path: backend/coverage
 
-      - name: SonarQube Scan
-        uses: SonarSource/sonarcloud-github-action@v3.1.0
-        with:
-          projectBaseDir: ./backend
-        env: 
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACK}}
-  
+    - name: SonarQube Scan
+      uses: SonarSource/Sonarcloud-github-action@v3.1.0
+      with:
+        projectBaseDir: ./backend
+      env: 
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACK }}   
 
-  Qualityfront:
+  QualityFront: 
     runs-on: ubuntu-latest
-    defaults:
+    defaults: 
       run:
         working-directory: ./frontend
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code 
+      uses: actions/checkout@v3 
+    
+    - name: Download Artifacts 
+      uses: actions/download-artifact@v4
+      with:
+        name: frontend-coverage-report
+        path: frontend/coverage
 
-      - name: Download Coverage Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: frontend-coverage-report
-          path: ./coverage-frontend
-
-      - name: SonarQube Scan
-        uses: SonarSource/sonarcloud-github-action@v3.1.0
-        with:
-          projectBaseDir: ./frontend
-        env: 
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONT}}
-  
+    - name: SonarQube Scan
+      uses: SonarSource/Sonarcloud-github-action@v3.1.0
+      with:
+        projectBaseDir: ./frontend
+      env: 
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONT }}   
+ 
